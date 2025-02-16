@@ -25,7 +25,7 @@ public class ClassesController {
         });
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{class_code}")
     public Student getClassByCode(@PathVariable String class_code) {
         String sql = "SELECT * FROM classes WHERE class_code = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
@@ -42,15 +42,15 @@ public class ClassesController {
         jdbcTemplate.update(sql, classes.getClassCode(), classes.getClassName());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{class_code}")
     public void updateStudent(@PathVariable String class_code, @RequestBody Classes classes) {
-        String sql = "UPDATE classes SET Class Name = ?, WHERE Class Code = ?";
+        String sql = "UPDATE classes SET class_name = ?, WHERE class_code = ?";
         jdbcTemplate.update(sql, classes.getClassName(), class_code);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{class_code}")
     public void deleteClass(@PathVariable String class_code) {
-        String sql = "DELETE FROM classes WHERE Class Code = ?";
+        String sql = "DELETE FROM classes WHERE class_code = ?";
         jdbcTemplate.update(sql, class_code);
     }
 }
