@@ -26,7 +26,7 @@ public class ClassesController {
     }
 
     @GetMapping("/{id}")
-    public Student getClassByCode(@PathVariable int class_code) {
+    public Student getClassByCode(@PathVariable String class_code) {
         String sql = "SELECT * FROM classes WHERE class_code = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
           Classes classes = new Classes();
@@ -39,19 +39,19 @@ public class ClassesController {
     @PostMapping
     public void createClass(@RequestBody Classes classes) {
         String sql = "INSERT INTO classes (class_code, class_name) VALUES (?, ?)";
-        jdbcTemplate.update(sql, Classes);
+        jdbcTemplate.update(sql, classes.getClassCode(), classes.getClassName());
     }
 
     @PutMapping("/{id}")
-    public void updateStudent(@PathVariable int id, @RequestBody Student student) {
-        String sql = "UPDATE students SET name = ?, age = ?, email = ? WHERE id = ?";
-        jdbcTemplate.update(sql, student.getName(), student.getAge(), student.getEmail(), id);
+    public void updateStudent(@PathVariable String class_code, @RequestBody Classes classes) {
+        String sql = "UPDATE classes SET Class Name = ?, WHERE Class Code = ?";
+        jdbcTemplate.update(sql, classes.getClassName(), class_code);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable int id) {
-        String sql = "DELETE FROM students WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+    public void deleteClass(@PathVariable String class_code) {
+        String sql = "DELETE FROM classes WHERE Class Code = ?";
+        jdbcTemplate.update(sql, class_code);
     }
 }
 
